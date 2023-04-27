@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  registry:
+    image: registry:2
+    ports:
+      - 5000:5000
+    environment:
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
+      REGISTRY_STORAGE_DELETE_ENABLED: "yes"
+    volumes:
+      - ./data:/data
+    restart: always
+
+  nginx:
+    #image: "nginx:1.9"
+    container_name: registry_nginx
+    build: ./nginx
+    ports:
+      - 5001:443
+    links:
+      - registry:registry
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d
+      - ./secret/ssl/:/etc/httpd/ssl/
+    restart: always
+
