@@ -1,3 +1,3 @@
 FROM nginx
 
-RUN addgroup nginx xfs
+# RUN addgroup nginx xfs

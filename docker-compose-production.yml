@@ -3,14 +3,22 @@ version: '3.9'
 services:
   registry:
     image: registry:2.8.2
+    container_name: registry
     ports:
       - 5000:5000
     environment:
       REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
       REGISTRY_STORAGE_DELETE_ENABLED: "yes"
     volumes:
-      - ./data:/data
+      - /data/data/registry:/data
     restart: always
+    networks:
+      - default
+networks:
+  default:
+    external:
+      name: siwon-infra
+    
 
   #nginx:
     #image: "nginx:1.9"
@@ -30,8 +38,8 @@ services:
   #    - source: ssl_sjwcorp_com_crt.pem
   #    - source: ssl_sjwcorp_com_key.pem
 
-secrets:
-  ssl_sjwcorp_com_crt.pem:
-    file: ./secrets/ssl/star_sjwcorp_kr_NginX_cert.pem
-  ssl_sjwcorp_com_key.pem:
-    file: ./secrets/ssl/star_sjwcorp_kr_NginX_key.pem
+#secrets:
+#  ssl_sjwcorp_com_crt.pem:
+#    file: ./secrets/ssl/star_sjwcorp_kr_NginX_cert.pem
+#  ssl_sjwcorp_com_key.pem:
+#    file: ./secrets/ssl/star_sjwcorp_kr_NginX_key.pem
